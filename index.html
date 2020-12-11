@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Google API | HTML/CSS/JS #5</title>
+</head>
+<body>
+    <header>Google API | HTML/CSS/JS #5</header>
+    <main>
+        <form class="search" action="">
+            <label for="">News</label></br></br>
+            <input class="input" type="text" /></br></br>
+            <input type="submit" /><br>
+        </form>
+
+
+        <div class="container">
+            <ul class="news-list"></ul>
+        </div>
+
+        <script>
+            const searchFrom = document.querySelector('.search');
+            const input = document.querySelector('.input');
+            const newsList= document.querySelector('.news-list');
+
+            searchFrom.addEventListener('submit', retrieve)
+
+            function retrieve(e){
+
+                newsList.innerHTML = "";
+
+                e.preventDefault()
+
+                const apiKey = '7ce467825d8b438189ee8e66f88eb031'
+                let topic = input.value;
+
+                let url = `https://newsapi.org/v2/everything?q=${topic}&apiKey=${apiKey}`
+
+                fetch(url).then((res)=>{
+                    return res.json()
+                }).then((data)=>{
+                    console.log(data)
+                    data.articles.forEach(article =>{
+                       let li = document.createElement('li');
+                       let a = document.createElement('a');
+                       a.setAttribute('href', article.url );
+                       a.setAttribute('target', '_blank');
+                       a.textContent = article.title;
+                       li.appendChild(a);
+                       newsList.appendChild(li);
+                    })
+                })
+
+            }
+        </script>
+
+
+    </main>
+    <footer></footer>
+</body>
+</html>
